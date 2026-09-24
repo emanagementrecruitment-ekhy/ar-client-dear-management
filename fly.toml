@@ -1,8 +1,8 @@
 # DEAR Management Channel — Fly.io config.
-# App name must be globally unique across all Fly.io accounts; if
-# "dear-management-channel" is already taken, change it here (and in the
-# `fly apps create` command) to something like "dear-management-channel-emk".
-app = "dear-management-channel"
+# App name matches what was actually provisioned via the Fly.io "Launch an
+# App from GitHub" UI (it named the app after the repo, ar-client-dear-management,
+# not this file's original suggested name).
+app = "ar-client-dear-management"
 primary_region = "sin" # Singapore — closest Fly.io region to Indonesia
 
 [build]
