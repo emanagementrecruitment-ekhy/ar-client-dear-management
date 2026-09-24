@@ -1,7 +1,7 @@
 const { app, BrowserWindow } = require("electron");
 const path = require("path");
 
-const RAILWAY_URL = "https://dear-management-channel-production.up.railway.app";
+const RAILWAY_URL = "https://ar-client-dear-management.fly.dev";
 const RETRY_MS = 5000;
 
 let mainWindow = null;

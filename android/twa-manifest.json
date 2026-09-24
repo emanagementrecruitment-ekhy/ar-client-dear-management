@@ -1,6 +1,6 @@
 {
   "packageId": "id.dearmanagement.channel",
-  "host": "dear-management-channel-production.up.railway.app",
+  "host": "ar-client-dear-management.fly.dev",
   "name": "DEAR Management Channel",
   "launcherName": "DEAR Channel",
   "display": "standalone",
@@ -13,8 +13,8 @@
   "backgroundColor": "#0a0a0c",
   "enableNotifications": false,
   "startUrl": "/login",
-  "iconUrl": "https://dear-management-channel-production.up.railway.app/icons/icon-512.png",
-  "maskableIconUrl": "https://dear-management-channel-production.up.railway.app/icons/icon-512.png",
+  "iconUrl": "https://ar-client-dear-management.fly.dev/icons/icon-512.png",
+  "maskableIconUrl": "https://ar-client-dear-management.fly.dev/icons/icon-512.png",
   "splashScreenFadeOutDuration": 300,
   "signingKey": {
     "path": "./android.keystore",
@@ -24,7 +24,7 @@
   "appVersion": "1.0.0",
   "shortcuts": [],
   "generatorApp": "manual",
-  "webManifestUrl": "https://dear-management-channel-production.up.railway.app/manifest.webmanifest",
+  "webManifestUrl": "https://ar-client-dear-management.fly.dev/manifest.webmanifest",
   "fallbackType": "customtabs",
   "features": {},
   "alphaDependencies": {

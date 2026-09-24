@@ -3,7 +3,7 @@
 Aplikasi Android ini adalah **Trusted Web Activity (TWA)** — pembungkus native
 Android resmi dari Google untuk aplikasi web yang sudah ada. Semua fitur
 (login Client/Channel, lihat data VCR/Fee, admin ledger) langsung terpakai
-dari web app yang sudah live di Railway; tidak ada kode yang ditulis ulang.
+dari web app yang sudah live di Fly.io; tidak ada kode yang ditulis ulang.
 
 Proyek build-nya (`twa-manifest.json` + workflow GitHub Actions) sudah
 disiapkan di repo ini. Build sesungguhnya (kompilasi ke `.aab`/`.apk`) berjalan
