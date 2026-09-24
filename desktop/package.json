@@ -1,0 +1,39 @@
+{
+  "name": "dear-management-channel-desktop",
+  "version": "1.0.0",
+  "private": true,
+  "description": "DEAR Management Channel Desktop — pembungkus aplikasi Portal Client/Channel DEAR Management untuk komputer/laptop.",
+  "author": "DEAR Management",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dist:win": "electron-builder --win --x64"
+  },
+  "devDependencies": {
+    "electron": "^33.2.1",
+    "electron-builder": "^25.1.8"
+  },
+  "build": {
+    "appId": "id.dearmanagement.channel.desktop",
+    "productName": "DEAR Management Channel Desktop",
+    "asar": true,
+    "publish": null,
+    "directories": {
+      "output": "dist",
+      "buildResources": "build"
+    },
+    "files": ["package.json", "main.js", "offline.html"],
+    "win": {
+      "target": [{ "target": "nsis", "arch": ["x64"] }],
+      "icon": "build/icon.ico"
+    },
+    "nsis": {
+      "oneClick": true,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": false,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "DEAR Management Channel"
+    }
+  }
+}

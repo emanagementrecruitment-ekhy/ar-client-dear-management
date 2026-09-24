@@ -1,0 +1,40 @@
+{
+  "packageId": "id.dearmanagement.channel",
+  "host": "dear-management-channel-production.up.railway.app",
+  "name": "DEAR Management Channel",
+  "launcherName": "DEAR Channel",
+  "display": "standalone",
+  "themeColor": "#0a0a0c",
+  "themeColorDark": "#0a0a0c",
+  "navigationColor": "#0a0a0c",
+  "navigationColorDark": "#0a0a0c",
+  "navigationDividerColor": "#000000",
+  "navigationDividerColorDark": "#000000",
+  "backgroundColor": "#0a0a0c",
+  "enableNotifications": false,
+  "startUrl": "/login",
+  "iconUrl": "https://dear-management-channel-production.up.railway.app/icons/icon-512.png",
+  "maskableIconUrl": "https://dear-management-channel-production.up.railway.app/icons/icon-512.png",
+  "splashScreenFadeOutDuration": 300,
+  "signingKey": {
+    "path": "./android.keystore",
+    "alias": "dearchannel"
+  },
+  "appVersionCode": 1,
+  "appVersion": "1.0.0",
+  "shortcuts": [],
+  "generatorApp": "manual",
+  "webManifestUrl": "https://dear-management-channel-production.up.railway.app/manifest.webmanifest",
+  "fallbackType": "customtabs",
+  "features": {},
+  "alphaDependencies": {
+    "enabled": false
+  },
+  "enableSiteSettingsShortcut": true,
+  "isChromeOSOnly": false,
+  "isMetaQuest": false,
+  "minSdkVersion": 21,
+  "fingerprints": [],
+  "additionalTrustedOrigins": [],
+  "retainedBundles": []
+}

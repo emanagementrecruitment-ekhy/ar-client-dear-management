@@ -1,0 +1,77 @@
+@import "tailwindcss";
+
+:root {
+  --bg: #0a0a0c;
+  --surface: #16161a;
+  --surface2: rgba(255, 255, 255, 0.04);
+  --line: rgba(255, 255, 255, 0.1);
+  --goldline: rgba(201, 162, 74, 0.35);
+  --text: #ede9e2;
+  --dim: rgba(237, 233, 226, 0.55);
+  --faint: rgba(237, 233, 226, 0.35);
+  --gold: #c9a24a;
+  --gold2: #e8caa0;
+  --red: #e2665f;
+  --green: #4ade80;
+}
+
+html,
+body {
+  background: var(--bg);
+  color: var(--text);
+}
+
+body {
+  font-family: ui-sans-serif, system-ui, -apple-system, sans-serif;
+}
+
+input {
+  color-scheme: dark;
+}
+
+/* Native <select> dropdown popups render with the OS/browser's own theme —
+   color-scheme + Tailwind classes on the closed control don't reliably
+   reach the open option list on every device, so force it explicitly:
+   solid readable black-on-white, at a size that's easy to tap/read. */
+select {
+  color-scheme: light;
+}
+
+select option {
+  color: #000;
+  background-color: #fff;
+  font-size: 17px;
+  padding: 8px;
+}
+
+/* Ledger "Cetak" button — print only #ledger-print-area, flipped to
+   black-on-white, everything else on the page hidden. Mirrors the same
+   body:has() pattern used for Slip Pay in the main AR Corp app. */
+@media print {
+  body:has(#ledger-print-area) * {
+    visibility: hidden;
+  }
+  body:has(#ledger-print-area) #ledger-print-area,
+  body:has(#ledger-print-area) #ledger-print-area * {
+    visibility: visible;
+  }
+  body:has(#ledger-print-area) #ledger-print-area {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    background: #fff;
+    /* Every color in this app is read through these CSS variables (gold,
+       dim text, red for deductions, ...) — redefining them here for print
+       flips the whole ledger to readable black-on-white without having to
+       override color on every individual cell. */
+    --text: #000000;
+    --dim: rgba(0, 0, 0, 0.6);
+    --faint: rgba(0, 0, 0, 0.4);
+    --gold: #8a6d1f;
+    --gold2: #8a6d1f;
+    --red: #b91c1c;
+    --line: rgba(0, 0, 0, 0.15);
+    --goldline: rgba(138, 109, 31, 0.4);
+  }
+}
