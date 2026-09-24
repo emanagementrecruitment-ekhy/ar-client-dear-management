@@ -1,0 +1,27 @@
+# DEAR Management Channel — Fly.io config.
+# App name must be globally unique across all Fly.io accounts; if
+# "dear-management-channel" is already taken, change it here (and in the
+# `fly apps create` command) to something like "dear-management-channel-emk".
+app = "dear-management-channel"
+primary_region = "sin" # Singapore — closest Fly.io region to Indonesia
+
+[build]
+
+[env]
+PORT = "8080"
+DATABASE_URL = "file:/data/prod.db"
+
+[[mounts]]
+source = "dear_channel_data"
+destination = "/data"
+
+[http_service]
+internal_port = 8080
+force_https = true
+auto_stop_machines = false
+auto_start_machines = true
+min_machines_running = 1
+
+[[vm]]
+size = "shared-cpu-1x"
+memory = "512mb"
