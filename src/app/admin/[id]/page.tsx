@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
+import Link from "next/link";
 import Image from "next/image";
 import { CLIENT_OUTLETS, CLIENT_FEE_TIERS } from "@/lib/constants";
 import { fmtRp, monthLabel } from "@/lib/format";
@@ -139,7 +140,13 @@ export default function AdminClientLedgerPage() {
 
   return (
     <div>
-      <div className="flex flex-wrap items-end justify-between gap-4 pb-4 border-b border-[var(--line)]">
+      <Link
+        href="/admin"
+        className="inline-flex items-center gap-1.5 text-[11px] font-semibold tracking-[0.08em] uppercase text-[var(--dim)] hover:text-[var(--gold)] transition mb-3"
+      >
+        <span aria-hidden>←</span> Kembali
+      </Link>
+      <div className="flex flex-wrap items-end justify-between gap-4 pb-3.5 border-b border-[var(--line)]">
         <div>
           <div className="text-[22px] font-semibold leading-[1.1]">{clientName ? `Data Client — ${clientName}` : "Data Client"}</div>
           <div className="text-[11.5px] text-[var(--dim)] mt-1.5">{clientCode ? `Kode ${clientCode} · ledger VCR/Fee bulanan` : ""}</div>
@@ -147,26 +154,26 @@ export default function AdminClientLedgerPage() {
         <MonthYearPicker value={month} onChange={setMonth} />
       </div>
 
-      <div className="pt-5.5 grid grid-cols-1 lg:[grid-template-columns:1fr_2fr] gap-4">
-        <div className="p-5 bg-[var(--surface)] border border-[var(--line)] rounded-2xl h-fit">
-          <div className="text-[16px] font-semibold text-[var(--gold2)] mb-3.5">
+      <div className="pt-4 grid grid-cols-1 lg:[grid-template-columns:1fr_2fr] gap-3.5">
+        <div className="p-4 bg-[var(--surface)] border border-[var(--line)] rounded-2xl h-fit">
+          <div className="text-[14px] font-semibold text-[var(--gold2)] mb-2.5">
             {editingId ? "Edit Baris" : "Tambah Baris"} — {monthLabel(month)}
           </div>
-          <div className="grid gap-3.5">
+          <div className="grid gap-2.5">
             <div>
-              <label className="text-[10px] tracking-[0.14em] uppercase text-[var(--dim)] mb-1.5 block">Nama</label>
+              <label className="text-[9.5px] tracking-[0.12em] uppercase text-[var(--dim)] mb-1 block">Nama</label>
               <input
                 value={form.nama}
                 onChange={(e) => setForm((f) => ({ ...f, nama: e.target.value }))}
-                className="w-full py-2.5 px-3.5 bg-black/30 border border-[var(--line)] rounded-[10px] text-[12.5px]"
+                className="w-full py-2 px-3 bg-black/30 border border-[var(--line)] rounded-[9px] text-[12px]"
               />
             </div>
             <div>
-              <label className="text-[10px] tracking-[0.14em] uppercase text-[var(--dim)] mb-1.5 block">Outlet</label>
+              <label className="text-[9.5px] tracking-[0.12em] uppercase text-[var(--dim)] mb-1 block">Outlet</label>
               <select
                 value={form.outlet}
                 onChange={(e) => setForm((f) => ({ ...f, outlet: e.target.value }))}
-                className="w-full py-3 px-3.5 bg-black/30 border border-[var(--line)] rounded-[10px] text-[15px] text-[var(--text)]"
+                className="w-full py-2 px-3 bg-black/30 border border-[var(--line)] rounded-[9px] text-[13px] text-[var(--text)]"
               >
                 <option value="">Pilih outlet…</option>
                 {form.outlet && !CLIENT_OUTLETS.includes(form.outlet as (typeof CLIENT_OUTLETS)[number]) && (
@@ -179,23 +186,23 @@ export default function AdminClientLedgerPage() {
                 ))}
               </select>
             </div>
-            <div className="grid grid-cols-2 gap-3.5">
+            <div className="grid grid-cols-2 gap-2.5">
               <div>
-                <label className="text-[10px] tracking-[0.14em] uppercase text-[var(--dim)] mb-1.5 block">Jumlah VCR</label>
+                <label className="text-[9.5px] tracking-[0.12em] uppercase text-[var(--dim)] mb-1 block">Jumlah VCR</label>
                 <input
                   type="number"
                   min={1}
                   value={form.vcr}
                   onChange={(e) => setForm((f) => ({ ...f, vcr: e.target.value }))}
-                  className="w-full py-2.5 px-3.5 bg-black/30 border border-[var(--line)] rounded-[10px] text-[12.5px]"
+                  className="w-full py-2 px-3 bg-black/30 border border-[var(--line)] rounded-[9px] text-[12px]"
                 />
               </div>
               <div>
-                <label className="text-[10px] tracking-[0.14em] uppercase text-[var(--dim)] mb-1.5 block">Fee / VCR</label>
+                <label className="text-[9.5px] tracking-[0.12em] uppercase text-[var(--dim)] mb-1 block">Fee / VCR</label>
                 <select
                   value={form.fee}
                   onChange={(e) => setForm((f) => ({ ...f, fee: e.target.value }))}
-                  className="w-full py-3 px-3.5 bg-black/30 border border-[var(--line)] rounded-[10px] text-[15px] text-[var(--text)]"
+                  className="w-full py-2 px-3 bg-black/30 border border-[var(--line)] rounded-[9px] text-[13px] text-[var(--text)]"
                 >
                   {CLIENT_FEE_TIERS.map((f) => (
                     <option key={f} value={f}>
@@ -205,35 +212,35 @@ export default function AdminClientLedgerPage() {
                 </select>
               </div>
             </div>
-            <div className="py-2.5 px-3.5 bg-[rgba(201,162,74,0.1)] border border-[var(--goldline)] rounded-[10px] text-[12.5px] text-[var(--gold2)]">
+            <div className="py-2 px-3 bg-[rgba(201,162,74,0.1)] border border-[var(--goldline)] rounded-[9px] text-[12px] text-[var(--gold2)]">
               {fmtRp(Number(form.fee) || 0)} × {Number(form.vcr) || 0} VCR = <strong>{fmtRp((Number(form.fee) || 0) * (Number(form.vcr) || 0))}</strong>
             </div>
             <div>
-              <label className="text-[10px] tracking-[0.14em] uppercase text-[var(--dim)] mb-1.5 block">Potongan/Kasbon</label>
+              <label className="text-[9.5px] tracking-[0.12em] uppercase text-[var(--dim)] mb-1 block">Potongan/Kasbon</label>
               <input
                 type="number"
                 min={0}
                 value={form.potongan}
                 onChange={(e) => setForm((f) => ({ ...f, potongan: e.target.value }))}
                 placeholder="0"
-                className="w-full py-2.5 px-3.5 bg-black/30 border border-[var(--line)] rounded-[10px] text-[12.5px]"
+                className="w-full py-2 px-3 bg-black/30 border border-[var(--line)] rounded-[9px] text-[12px]"
               />
             </div>
             <div>
-              <label className="text-[10px] tracking-[0.14em] uppercase text-[var(--dim)] mb-1.5 block">Keterangan</label>
+              <label className="text-[9.5px] tracking-[0.12em] uppercase text-[var(--dim)] mb-1 block">Keterangan</label>
               <input
                 value={form.keterangan}
                 onChange={(e) => setForm((f) => ({ ...f, keterangan: e.target.value }))}
-                className="w-full py-2.5 px-3.5 bg-black/30 border border-[var(--line)] rounded-[10px] text-[12.5px]"
+                className="w-full py-2 px-3 bg-black/30 border border-[var(--line)] rounded-[9px] text-[12px]"
               />
             </div>
           </div>
-          {msg && <div className="mt-3.5 text-[11.5px] text-[var(--red)]">{msg}</div>}
-          <div className="flex gap-2.5 mt-3.5">
+          {msg && <div className="mt-2.5 text-[11px] text-[var(--red)]">{msg}</div>}
+          <div className="flex gap-2 mt-2.5">
             <button
               disabled={busy || !form.nama || !form.outlet || !form.vcr}
               onClick={submit}
-              className="py-2.5 px-5 rounded-[10px] text-[11px] font-bold tracking-[0.14em] uppercase cursor-pointer disabled:opacity-60"
+              className="py-2 px-4 rounded-[9px] text-[10.5px] font-bold tracking-[0.14em] uppercase cursor-pointer disabled:opacity-60"
               style={{ background: "linear-gradient(135deg, var(--gold), var(--gold2))", color: "#1a1200" }}
             >
               {editingId ? "Simpan Perubahan" : "Tambah Baris"}
@@ -241,7 +248,7 @@ export default function AdminClientLedgerPage() {
             {editingId && (
               <button
                 onClick={cancelEdit}
-                className="py-2.5 px-5 bg-[var(--surface2)] border border-[var(--line)] rounded-[10px] text-[var(--dim)] text-[11px] font-bold tracking-[0.14em] uppercase cursor-pointer"
+                className="py-2 px-4 bg-[var(--surface2)] border border-[var(--line)] rounded-[9px] text-[var(--dim)] text-[10.5px] font-bold tracking-[0.14em] uppercase cursor-pointer"
               >
                 Batal
               </button>

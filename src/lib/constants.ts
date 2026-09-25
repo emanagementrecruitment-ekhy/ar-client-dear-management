@@ -11,7 +11,7 @@ export const OTP_MAX_ATTEMPTS = 5;
 export const CLIENT_OUTLETS = [
   "HRV", "ROYAL", "SA", "MTR", "MEGA A", "LA", "MEDIKA", "V-CLUB", "COLLO",
   "EMVO", "CL T5 (S)", "CL T5 (D)", "BUNGKER", "TRAVEL", "MALIO", "CL T2",
-  "KC", "SUMO", "LEVEL 5",
+  "KC", "SUMO", "LEVEL 5", "HW", "CALIF",
 ] as const;
 
 // Fee/VCR preset tiers — Rp10.000 to Rp100.000 in Rp5.000 steps, matching
