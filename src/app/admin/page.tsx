@@ -26,14 +26,26 @@ export default function AdminClientListPage() {
   const [editOwnerCode, setEditOwnerCode] = useState("");
   const [editBusy, setEditBusy] = useState(false);
   const [editMsg, setEditMsg] = useState("");
+  const [refreshing, setRefreshing] = useState(false);
 
   function load() {
-    fetch("/api/clients")
+    return fetch("/api/clients")
       .then((r) => r.json())
       .then((d) => setClients(d.clients ?? []));
   }
 
-  useEffect(load, []);
+  useEffect(() => {
+    load();
+  }, []);
+
+  async function refresh() {
+    setRefreshing(true);
+    try {
+      await load();
+    } finally {
+      setRefreshing(false);
+    }
+  }
 
   function startEditClient(c: ClientRow) {
     setEditingClientId(c.id);
@@ -168,7 +180,19 @@ export default function AdminClientListPage() {
         </div>
 
         <div className="p-5 bg-[var(--surface)] border border-[var(--line)] rounded-2xl h-fit">
-          <div className="text-[16px] font-semibold text-[var(--gold2)] mb-3.5">Daftar Client/Channel</div>
+          <div className="flex items-center justify-between mb-3.5">
+            <div className="text-[16px] font-semibold text-[var(--gold2)]">Daftar Client/Channel</div>
+            <button
+              onClick={refresh}
+              disabled={refreshing}
+              className="flex items-center gap-1.5 py-1.5 px-3 bg-[var(--surface2)] border border-[var(--line)] rounded-[8px] text-[var(--dim)] text-[10.5px] font-bold tracking-[0.08em] uppercase cursor-pointer disabled:opacity-60 hover:text-[var(--gold)] hover:border-[var(--goldline)] transition"
+            >
+              <span className={refreshing ? "animate-spin" : ""} aria-hidden>
+                ↻
+              </span>
+              {refreshing ? "Memuat…" : "Refresh"}
+            </button>
+          </div>
           <div className="flex flex-col gap-2">
             {clients.length === 0 && <div className="text-[12.5px] text-[var(--faint)]">Belum ada client/channel terdaftar.</div>}
             {clients.map((c) =>
