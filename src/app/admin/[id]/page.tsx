@@ -42,6 +42,7 @@ export default function AdminClientLedgerPage() {
   const [totals, setTotals] = useState<Totals>({ vcr: 0, jumlah: 0, potongan: 0, grandTotal: 0 });
   const [form, setForm] = useState(emptyForm);
   const [editingId, setEditingId] = useState<string | null>(null);
+  const [ownerCode, setOwnerCode] = useState("");
   const [busy, setBusy] = useState(false);
   const [msg, setMsg] = useState("");
   const [sending, setSending] = useState(false);
@@ -77,13 +78,14 @@ export default function AdminClientLedgerPage() {
   function cancelEdit() {
     setEditingId(null);
     setForm(emptyForm);
+    setOwnerCode("");
   }
 
   async function submit() {
     setBusy(true);
     setMsg("");
     try {
-      const body = {
+      const body: Record<string, unknown> = {
         month,
         nama: form.nama,
         outlet: form.outlet,
@@ -92,6 +94,7 @@ export default function AdminClientLedgerPage() {
         potongan: Number(form.potongan) || 0,
         keterangan: form.keterangan,
       };
+      if (editingId) body.ownerCode = ownerCode;
       const res = await fetch(editingId ? `/api/clients/${id}/entries/${editingId}` : `/api/clients/${id}/entries`, {
         method: editingId ? "PATCH" : "POST",
         headers: { "Content-Type": "application/json" },
@@ -129,7 +132,13 @@ export default function AdminClientLedgerPage() {
 
   async function remove(entryId: string) {
     if (!confirm("Hapus baris ini?")) return;
-    const res = await fetch(`/api/clients/${id}/entries/${entryId}`, { method: "DELETE" });
+    const code = window.prompt("Masukkan Kode Owner untuk menghapus:");
+    if (!code) return;
+    const res = await fetch(`/api/clients/${id}/entries/${entryId}`, {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ownerCode: code }),
+    });
     const data = await res.json();
     if (!res.ok) {
       setMsg(data.error ?? "Gagal menghapus.");
@@ -234,11 +243,23 @@ export default function AdminClientLedgerPage() {
                 className="w-full py-2 px-3 bg-black/30 border border-[var(--line)] rounded-[9px] text-[12px]"
               />
             </div>
+            {editingId && (
+              <div>
+                <label className="text-[9.5px] tracking-[0.12em] uppercase text-[var(--gold)] mb-1 block">Kode Owner</label>
+                <input
+                  type="password"
+                  value={ownerCode}
+                  onChange={(e) => setOwnerCode(e.target.value)}
+                  placeholder="Wajib diisi untuk simpan perubahan"
+                  className="w-full py-2 px-3 bg-black/30 border border-[var(--goldline)] rounded-[9px] text-[12px]"
+                />
+              </div>
+            )}
           </div>
           {msg && <div className="mt-2.5 text-[11px] text-[var(--red)]">{msg}</div>}
           <div className="flex gap-2 mt-2.5">
             <button
-              disabled={busy || !form.nama || !form.outlet || !form.vcr}
+              disabled={busy || !form.nama || !form.outlet || !form.vcr || (!!editingId && !ownerCode)}
               onClick={submit}
               className="py-2 px-4 rounded-[9px] text-[10.5px] font-bold tracking-[0.14em] uppercase cursor-pointer disabled:opacity-60"
               style={{ background: "linear-gradient(135deg, var(--gold), var(--gold2))", color: "#1a1200" }}

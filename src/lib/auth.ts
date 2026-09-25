@@ -60,3 +60,15 @@ export class ApiAuthError extends Error {
 export async function requireAdmin(): Promise<void> {
   if (!(await isAdminSession())) throw new ApiAuthError(401, "Silakan login kembali.");
 }
+
+// Narrower gate on top of the shared admin session above — the most
+// sensitive actions (edit/delete a ledger entry's VCR/Fee, rename or delete
+// a Channel/Client account) also require this separate Owner-only code, so
+// they stay off-limits to any staff member who merely knows the shared
+// admin password. Fails closed if OWNER_ACTION_CODE was never configured.
+export function requireOwnerCode(code: unknown): void {
+  const expected = process.env.OWNER_ACTION_CODE;
+  if (!expected || typeof code !== "string" || code !== expected) {
+    throw new ApiAuthError(403, "Kode Owner salah atau belum diisi.");
+  }
+}

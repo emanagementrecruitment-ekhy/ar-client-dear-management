@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { requireAdmin } from "@/lib/auth";
+import { requireAdmin, requireOwnerCode } from "@/lib/auth";
 import { apiError } from "@/lib/api-error";
 import { CLIENT_FEE_TIERS } from "@/lib/constants";
 
@@ -15,6 +15,7 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
     }
 
     const body = await req.json().catch(() => null);
+    requireOwnerCode(body?.ownerCode);
     const nama = typeof body?.nama === "string" ? body.nama.trim() : existing.nama;
     const outlet = typeof body?.outlet === "string" ? body.outlet.trim() : existing.outlet;
     const vcr = body?.vcr !== undefined ? Number(body.vcr) : existing.vcr;
@@ -46,7 +47,7 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
   }
 }
 
-export async function DELETE(_req: Request, { params }: { params: Promise<{ id: string; entryId: string }> }) {
+export async function DELETE(req: Request, { params }: { params: Promise<{ id: string; entryId: string }> }) {
   try {
     await requireAdmin();
     const { id, entryId } = await params;
@@ -55,6 +56,9 @@ export async function DELETE(_req: Request, { params }: { params: Promise<{ id: 
     if (!existing || existing.clientId !== id) {
       return NextResponse.json({ error: "Baris tidak ditemukan." }, { status: 404 });
     }
+
+    const body = await req.json().catch(() => null);
+    requireOwnerCode(body?.ownerCode);
 
     await prisma.clientEntry.delete({ where: { id: entryId } });
     return NextResponse.json({ ok: true });

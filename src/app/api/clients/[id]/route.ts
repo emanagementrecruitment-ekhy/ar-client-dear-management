@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { requireAdmin } from "@/lib/auth";
+import { requireAdmin, requireOwnerCode } from "@/lib/auth";
 import { apiError } from "@/lib/api-error";
 import { CLIENT_STATUSES, type ClientStatus } from "@/lib/constants";
 import { normalizeIdentifier } from "@/lib/lookup";
@@ -35,6 +35,7 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
     if (!existing) return NextResponse.json({ error: "Client/channel tidak ditemukan." }, { status: 404 });
 
     const body = await req.json().catch(() => null);
+    requireOwnerCode(body?.ownerCode);
     const name = typeof body?.name === "string" ? body.name.trim() : existing.name;
     const emailRaw = typeof body?.email === "string" ? body.email.trim() : existing.email;
     const phoneRaw = typeof body?.phone === "string" ? body.phone.trim() : existing.phone;
@@ -70,12 +71,15 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
   }
 }
 
-export async function DELETE(_req: Request, { params }: { params: Promise<{ id: string }> }) {
+export async function DELETE(req: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     await requireAdmin();
     const { id } = await params;
     const existing = await prisma.clientAccount.findUnique({ where: { id } });
     if (!existing) return NextResponse.json({ error: "Client/channel tidak ditemukan." }, { status: 404 });
+
+    const body = await req.json().catch(() => null);
+    requireOwnerCode(body?.ownerCode);
 
     await prisma.clientAccount.delete({ where: { id } });
     return NextResponse.json({ ok: true, code: existing.code });
